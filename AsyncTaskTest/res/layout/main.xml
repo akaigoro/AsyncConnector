@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:background="#dcdcdc"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btnstart00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Start Async Task " />
+
+    <Button
+        android:id="@+id/btnstart01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnstart00"
+        android:layout_centerHorizontal="true"
+        android:text="Start Async Task with Proxy" />
+
+    <Button
+        android:id="@+id/btnstart11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnstart10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Start Async Thread with Proxy" />
+
+    <Button
+        android:id="@+id/btnstart10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/btnstart00"
+        android:layout_below="@+id/btnstart01"
+        android:layout_marginTop="15dp"
+        android:text="Start Async Thread" />
+    
+</RelativeLayout>
