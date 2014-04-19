@@ -1,12 +1,3 @@
-# eclipse files
-.settings
-.classpath
-.project
-*/.classpath
-*/.project
-.classpath
-.project
-
 # test results
 tmpfile*
 testfile*
