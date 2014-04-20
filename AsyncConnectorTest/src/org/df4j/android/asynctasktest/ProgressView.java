@@ -15,6 +15,6 @@ public interface ProgressView {
 
 	void publishResult(Long time);
 
-	void publishFailure(Throwable e);
+	void publishFailure(Long time, Throwable e);
 
 }

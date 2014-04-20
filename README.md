@@ -7,3 +7,9 @@ Arbitrary interface with GUI can be declared.
 
 ==========
 AsyncTaskTest - example application using AsyncTask 
+
+==========
+Version history
+
+2014/04/20 renamed to AsyncConnector; refactored to single class.
+2014/04/19 initial commit

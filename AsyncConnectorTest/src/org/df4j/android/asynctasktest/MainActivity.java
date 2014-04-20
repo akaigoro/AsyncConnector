@@ -3,6 +3,7 @@ package org.df4j.android.asynctasktest;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import org.df4j.android.log.Logm;
+import org.df4j.android.uiconnector.ExceptionHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -74,11 +75,13 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	class MyDialog extends Dialog implements ProgressView {
+	class MyDialog extends Dialog implements ProgressView, ExceptionHandler {
 		ProgressBar progressBar;
 		TextView tvLoading;
 		TextView tvPer;
 		Button btnCancel;
+		Button btnError;
+		boolean makeError=false;
 		MyTask myTask;
 		{
 			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -93,6 +96,13 @@ public class MainActivity extends Activity {
 					if (myTask!=null) {
 					    myTask.cancel(true);
 					}
+				}
+			});
+			btnError = (Button) this.findViewById(R.id.Button01);
+			btnError.setOnClickListener(new android.view.View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					makeError=true;
 				}
 			});
 			this.show();
@@ -145,27 +155,41 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void publishProgress(Integer progress) {
+			if (makeError) {
+				// check how ExceptionHandler works - 
+				// this.handleException() should be invoked
+				makeError=false;
+				Logm.i("make error");
+				throw new RuntimeException();
+			}
 			progressBar.setProgress(progress);
 			tvLoading.setText("Loading...  " + progress + " %");
 			tvPer.setText(progress+" %");
 		}
+
+		@Override
+		public void handleException(Throwable e) {
+			Logm.i(e);
+			showResult("Exception!", e.toString());
+		}
 		
 		@Override
-		public void publishResult(Long result) {
+		public void publishResult(Long time) {
 			Logm.i();
-			showResult("Completed!", "Your Task completed in "+result+" ms");
+			this.dismiss();
+			showResult("Completed!", "Your Task completed in "+time+" ms");
 	    }
 		
 		@Override
-		public void publishFailure(Throwable e) {
+		public void publishFailure(Long time, Throwable e) {
 			Logm.i();
+			this.dismiss();
 			String excName=e.toString();
 			excName=excName.substring(excName.lastIndexOf('.')+1);
-			showResult("Cancelled!", "Your Task is cancelled with "+excName);
+			showResult("Cancelled!", "Your Task is cancelled with "+excName+" after "+time+" ms");
 		}
 
 		public void showResult(String title, String message) {
-			this.dismiss();
 			new AlertDialog.Builder(MainActivity.this)
 	        .setTitle(title)
 	        .setMessage(message)
